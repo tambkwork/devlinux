@@ -106,7 +106,7 @@ while IFS= read -r class_file; do
                 cat > "$session_dir/homework.md" << EOF
 # Đề Bài — $session_name
 
-<!-- Giáo viên điền đề bài vào đây trước khi push -->
+<!-- Giáo viên điền đề bài vào đây theo format trong homework.template.md -->
 EOF
                 echo "      ✅ $session_name/ — đã tạo"
                 CREATED=$((CREATED + 1))

@@ -106,17 +106,22 @@ cd devlinux
 **Làm bước này mỗi buổi học trước khi bắt đầu làm bài.**
 
 ```bash
-# 1. Quay về master
+# 1. Quay về master và pull code mới nhất
 git checkout master
+git pull
 
-# 2. Pull code mới nhất từ repo giáo viên (có homework.md của buổi mới)
-git pull upstream master
-
-# 3. Tạo branch mới cho buổi học và checkout sang branch đó
-git checkout -b embedded-linux/K26.1/nguyen-van-a/session-01
+# 2. Tạo branch mới cho buổi học và checkout sang branch đó
+git checkout -b tên-môn/KXX.X/tên-của-bạn/session-XX
 ```
 
-Format branch bắt buộc: `tên-môn/KXX.X/tên-của-bạn/session-XX`
+**Format branch bắt buộc:** `tên-môn/KXX.X/tên-của-bạn/session-XX`
+
+| Thành phần | Ý nghĩa | Ví dụ |
+|---|---|---|
+| `tên-môn` | Tên môn học (viết thường, dấu gạch ngang) | `embedded-linux` |
+| `KXX.X` | Mã khoá học | `K26.1` |
+| `tên-của-bạn` | Tên thư mục của bạn trong repo (giáo viên đã tạo sẵn) | `nguyen-van-a` |
+| `session-XX` | Số buổi học, 2 chữ số | `session-01` |
 
 | Môn | Tên dùng trong branch |
 |---|---|
@@ -125,11 +130,35 @@ Format branch bắt buộc: `tên-môn/KXX.X/tên-của-bạn/session-XX`
 | Embedded MCU | `embedded-mcu` |
 | C Advance | `c-advance` |
 
+**Ví dụ cụ thể:**
+```bash
+# Học viên "nguyen-van-a", môn Embedded Linux, khoá K26.1, buổi 1
+git checkout -b embedded-linux/K26.1/nguyen-van-a/session-01
+
+# Học viên "tran-thi-b", môn RTOS, khoá K26.2, buổi 3
+git checkout -b rtos/K26.2/tran-thi-b/session-03
+```
+
 > ⚠️ Sai format branch → PR sẽ bị từ chối tự động.
+> ⚠️ `tên-của-bạn` phải khớp chính xác với tên thư mục giáo viên đã tạo — hỏi giáo viên nếu không chắc.
 
 ---
 
 ### Bước 5 — Làm bài
+
+> ⚠️ **Trước khi bắt đầu, kiểm tra 2 thứ này:**
+>
+> ```bash
+> git branch          # phải thấy branch buổi hôm nay được đánh dấu *
+> pwd                 # phải đang đứng trong thư mục đúng session
+> ```
+>
+> Ví dụ đúng — buổi 2:
+> ```
+> * embedded-linux/K26.1/nguyen-van-a/session-02   ← branch hôm nay
+>   master
+> ```
+> Nếu thấy branch sai hoặc đang đứng trong `session-01/` → quay lại Bước 4.
 
 Thư mục `session-XX/` và file `homework.md` đã được giáo viên chuẩn bị sẵn. Vào đúng thư mục session của buổi học:
 
@@ -174,6 +203,17 @@ git add .
 git commit -m "embedded-linux K26.1 session-01: hoàn thành Exercise_1, Exercise_2, Exercise_3"
 git push origin embedded-linux/K26.1/nguyen-van-a/session-01
 ```
+
+Phần sau `origin` là tên branch — phải khớp với branch đang làm việc:
+
+| Thành phần | Ví dụ |
+|---|---|
+| Tên môn | `embedded-linux` |
+| Mã khoá | `K26.1` |
+| Tên của bạn | `nguyen-van-a` |
+| Buổi học | `session-01` |
+
+> ⚠️ Mỗi buổi học là một branch riêng — bài buổi nào push lên branch buổi đó. Không push bài của `session-02` lên branch `session-01`.
 
 ---
 
@@ -234,13 +274,17 @@ Thư mục `session-02/`, `session-03/`... đã được tạo sẵn — không 
 Làm lại **Bước 4 → Bước 7** mỗi buổi:
 
 ```bash
-# Bước 4: Pull code mới và tạo branch buổi mới
+# Bước 4: Tạo branch buổi mới
 git checkout master
-git pull upstream master
+git pull
 git checkout -b embedded-linux/K26.1/nguyen-van-a/session-02
 
-# Bước 5: Vào thư mục session, đọc đề bài, tạo thư mục Exercise và viết code
+# Kiểm tra đang đúng branch chưa
+git branch    # phải thấy * embedded-linux/K26.1/nguyen-van-a/session-02
+
+# Bước 5: Vào đúng thư mục session, kiểm tra pwd trước khi làm bài
 cd embedded-linux/K26.1/nguyen-van-a/session-02
+pwd           # phải kết thúc bằng /session-02
 mkdir -p Exercise_1 Exercise_2 Exercise_3
 
 # Bước 6 & 7: Commit, push, mở PR như bình thường

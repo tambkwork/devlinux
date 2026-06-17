@@ -7,6 +7,9 @@ jobs:
   label-prs:
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
       - name: Label all PRs by subject/course
         run: |
           python3 << 'EOF'
@@ -20,6 +23,14 @@ jobs:
               capture_output=True,
               text=True
           )
+
+          if result.returncode != 0:
+              print(f"Error running gh command: {result.stderr}")
+              exit(1)
+
+          if not result.stdout.strip():
+              print("No PRs found")
+              exit(0)
 
           prs = json.loads(result.stdout)
 
